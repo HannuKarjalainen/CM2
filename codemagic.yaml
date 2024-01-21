@@ -2,12 +2,13 @@ workflows:
   build:
     name: Build
     max_build_duration: 120
-    environment:
-      java: openjdk@17
-      flutter: latest
-    scripts:
-      - name: Install dependencies
-        script: flutter pub get
-      - name: Build APK
-        script: flutter build apk
+  scripts:
+      - name: Set Java 17 for Gradle Daemon
+        script: echo "org.gradle.java.home=/Library/Java/JavaVirtualMachines/<path-to-your-java-17>/Contents/Home" > gradle.properties
+
+      - name: Set execute permissions for gradlew
+        script: chmod +x gradlew
+
+      - name: Build Android release
+        script: ./gradlew assembleRelease
 
